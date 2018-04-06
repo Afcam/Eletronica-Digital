@@ -1,0 +1,13 @@
+; Este programa le 12 switches e soma  a(5:0) + a(11:6)
+
+CONSTANT Source_A, 00 ; switchs no portID 01
+CONSTANT Source_B, 01 ; switchs no portID 02
+CONSTANT Out_A, 03; switches no portID 03
+
+soma: 	INPUT s0, Source_A
+		LOAD s2,s0
+		INPUT s1, Source_B
+		LOAD s3,s1 ; Copiei sw em 
+		ADD s2, s3 
+		OUTPUT s2,Out_A
+		JUMP soma

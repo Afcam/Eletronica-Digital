@@ -1,0 +1,42 @@
+CONSTANT 	Source_A,	 00 
+CONSTANT 	Source_B, 	 01
+CONSTANT 		  Sw, 	 04  
+CONSTANT 	   Out_A, 	 02 
+CONSTANT 	   Out_B, 	 03 
+
+Compara:    INPUT     s0, Source_A
+            LOAD      s1, s0
+            INPUT     s0, Source_B
+            LOAD      s2, s0
+            COMPARE   sA, s1
+            COMPARECY   sB, s2
+			JUMP 	   Z, igual
+			JUMP Atualiza
+
+
+igual:      INPUT     s0, Sw
+            LOAD      s9, s0
+            COMPARE   sC, s9
+			JUMP 	   C, Desloca
+			JUMP 	   Z, Compara
+			JUMP Carega
+
+Desloca: 	   LOAD      sC, 01
+			   SR0       s4
+	           SRA       s3
+			OUTPUT       s3, Out_A
+		   	OUTPUT       s4, Out_B
+		    JUMP	  Compara	
+
+Carega: 	   LOAD      sC, 00
+		   	   JUMP	  Compara
+
+Atualiza:   INPUT     s0, Source_A
+            LOAD      sA, s0
+            LOAD      s3, s0
+            INPUT     s0, Source_B
+            LOAD      sB, s0
+            LOAD      s4, s0
+            OUTPUT       s3, Out_A
+		   	OUTPUT       s4, Out_B
+			JUMP Compara

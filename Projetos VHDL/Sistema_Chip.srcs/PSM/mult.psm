@@ -1,0 +1,26 @@
+CONSTANT 	Source_A,	 00 
+CONSTANT 	Source_B, 	 01 
+CONSTANT 	   Out_A, 	 02 
+CONSTANT 	   Out_B, 	 03 
+
+NAMEREG 		  sA,     i
+
+mult_soft:          INPUT     s0, Source_A
+                    LOAD      s3, s0
+                    INPUT     s0, Source_B
+                    LOAD      s4, s0
+                    LOAD      s5, 00
+                    LOAD       i, 08
+
+mult_loop:          SR0       s4
+                    JUMP      NC, shift_prod
+                    ADD       s5, s3
+                   
+shift_prod:         SRA       s5
+                    SRA       s6
+                    SUB        i, 01
+                    JUMP      NZ, mult_loop
+
+Saidas:		   		OUTPUT       s6, Out_A
+				   	OUTPUT       s5, Out_B
+				   	JUMP	  mult_soft
